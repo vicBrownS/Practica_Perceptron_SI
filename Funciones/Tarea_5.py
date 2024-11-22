@@ -55,20 +55,24 @@ def analisis_binario(Ximage,yimage, caracteres):
             clf = Perceptron(random_state=None, eta0= 0.1, shuffle=True, fit_intercept=True) #Creamos el perceptrón simple
             clf.fit(X_train, y_train) #Se entrena el perceptron
             y_pred_binario = clf.predict(X_test) #Se guarda la predicción
-            accuracy=metrics.accuracy_score(y_test,y_pred_binario) #Se obtiene la precisión
 
-            if accuracy < 0.75: #Si la precisión es menor de 0.75
-                print("Exactitud:" + str(accuracy)+ "de los valores("+ str(caracter_1)+"," + str(caracter_2))
+            accuracy= round(metrics.accuracy_score(y_test,y_pred_binario),3) #Se obtiene la accuracy
+            sensibilidad = round(metrics.recall_score(y_test,y_pred_binario),3) #Se obtiene la sensibilidad
+            precision = round(metrics.precision_score(y_test,y_pred_binario),3) #Se obtiene la precision
 
-                #Visualizamos la matriz de confusión
-                labels=np.unique(y_test)
-                conf_mat= metrics.confusion_matrix(y_test,y_pred_binario,labels=labels)
-                cm_display=metrics.ConfusionMatrixDisplay(confusion_matrix = conf_mat,display_labels= [str(caracter_1),str(caracter_2)])
+            print("Exactitud:" + str(accuracy)+ "de los valores("+ str(caracter_1)+"," + str(caracter_2))
+            print("Sensibilidad:" + str(sensibilidad) + "de los valores(" + str(caracter_1) + "," + str(caracter_2))
+            print("Precision:" + str(precision) + "de los valores(" + str(caracter_1) + "," + str(caracter_2))
 
-                fig,ax =plt.subplots(figsize=(10,10))
-                cm_display.plot(ax=ax)
+            #Visualizamos la matriz de confusión
+            labels=np.unique(y_test)
+            conf_mat= metrics.confusion_matrix(y_test,y_pred_binario,labels=labels)
+            cm_display=metrics.ConfusionMatrixDisplay(confusion_matrix = conf_mat,display_labels= [str(caracter_1),str(caracter_2)])
 
-                plt.title("Matriz de confusión Perceptron simple de Sklearn(" + str
-                (caracter_1)+"," + str(caracter_2)+ ")")
-                plt.xticks(rotation='vertical')
-                plt.show()
+            fig,ax =plt.subplots(figsize=(10,10))
+            cm_display.plot(ax=ax)
+
+            plt.title("Matriz de confusión Perceptron simple de Sklearn(" + str
+            (caracter_1)+"," + str(caracter_2)+ ")")
+            plt.xticks(rotation='vertical')
+            plt.show()
